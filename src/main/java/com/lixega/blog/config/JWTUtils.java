@@ -3,10 +3,14 @@ package com.lixega.blog.config;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.SecureDigestAlgorithm;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import java.security.PrivateKey;
+import java.security.PublicKey;
 import java.time.Instant;
 import java.util.Date;
 
@@ -22,7 +26,7 @@ public class JWTUtils {
     public String getSubject(String jwt) {
         JwtParser jwtParser =
                 Jwts.parser()
-                        .decryptWith(rsaKeyProperties.privateKey())
+                        .verifyWith(rsaKeyProperties.publicKey())
                         .build();
         try {
             Claims claims = jwtParser.parseSignedClaims(jwt).getPayload();
@@ -36,8 +40,9 @@ public class JWTUtils {
     public String generateTokenWithUsername(String username) {
         return Jwts
                 .builder()
-                .signWith(rsaKeyProperties.publicKey())
+                .signWith(rsaKeyProperties.privateKey())
                 .issuedAt(Date.from(Instant.now()))
+                .subject(username)
                 .expiration(Date.from(Instant.now().plusMillis(jwtExpirationMillis)))
                 .compact();
     }

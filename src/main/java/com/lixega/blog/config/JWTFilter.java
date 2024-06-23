@@ -32,7 +32,6 @@ public class JWTFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
             return;
         }
-
         String jwt = authHeader.split(" ")[1];
 
         String subject = jwtUtils.getSubject(jwt);
@@ -43,6 +42,8 @@ public class JWTFilter extends OncePerRequestFilter {
 
         SecurityContext securityContext = SecurityContextHolder.getContext();
         securityContext.setAuthentication(authentication);
+
+        filterChain.doFilter(request, response);
     }
 
 
