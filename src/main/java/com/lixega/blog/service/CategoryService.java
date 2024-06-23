@@ -1,6 +1,6 @@
 package com.lixega.blog.service;
 
-import com.lixega.blog.model.dto.CategoryCreationRequest;
+import com.lixega.blog.model.dto.request.CategoryCreationRequest;
 import com.lixega.blog.model.entity.Category;
 import com.lixega.blog.repository.CategoryRepository;
 import lombok.AllArgsConstructor;

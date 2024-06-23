@@ -1,6 +1,6 @@
 package com.lixega.blog.service;
 
-import com.lixega.blog.model.dto.ArticleCreationRequest;
+import com.lixega.blog.model.dto.request.ArticleCreationRequest;
 import com.lixega.blog.model.entity.Article;
 import com.lixega.blog.model.entity.Category;
 import com.lixega.blog.model.entity.UserAccount;

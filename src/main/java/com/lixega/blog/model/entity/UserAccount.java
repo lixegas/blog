@@ -21,8 +21,10 @@ public class UserAccount {
     @Column(name = "user_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
+
     @Column(name = "created_at")
     private LocalDateTime createAt;
+
     private String name;
     private String surname;
     private String username;

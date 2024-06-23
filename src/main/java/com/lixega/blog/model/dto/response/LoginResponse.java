@@ -1,4 +1,4 @@
-package com.lixega.blog.model.dto;
+package com.lixega.blog.model.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,7 +1,8 @@
 package com.lixega.blog.controller;
 
-import com.lixega.blog.model.dto.UserCreationRequest;
+import com.lixega.blog.model.dto.request.RegistrationRequest;
 import com.lixega.blog.model.entity.UserAccount;
+import com.lixega.blog.service.AuthService;
 import com.lixega.blog.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -11,7 +12,8 @@ import org.springframework.web.bind.annotation.*;
 @AllArgsConstructor
 public class UserController {
 
-    private UserService userService;
+    private final UserService userService;
+    private final AuthService authService;
 
     @GetMapping("{nickname}")
     public UserAccount getUserNickname(@PathVariable String nickname) {
@@ -19,8 +21,8 @@ public class UserController {
     }
 
     @PostMapping
-    public UserAccount createUser(@RequestBody UserCreationRequest userCreationRequest) {
-        return userService.createUser(userCreationRequest);
+    public UserAccount createUser(@RequestBody RegistrationRequest registrationRequest) {
+        return authService.createUser(registrationRequest);
     }
 
     @DeleteMapping("{id}")

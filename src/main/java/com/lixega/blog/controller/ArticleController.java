@@ -1,6 +1,6 @@
 package com.lixega.blog.controller;
 
-import com.lixega.blog.model.dto.ArticleCreationRequest;
+import com.lixega.blog.model.dto.request.ArticleCreationRequest;
 import com.lixega.blog.model.entity.Article;
 import com.lixega.blog.service.ArticleService;
 import lombok.AllArgsConstructor;

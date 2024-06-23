@@ -26,7 +26,6 @@ public class JWTFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-
         String authHeader = request.getHeader("Authorization");
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
@@ -35,7 +34,7 @@ public class JWTFilter extends OncePerRequestFilter {
         String jwt = authHeader.split(" ")[1];
 
         String subject = jwtUtils.getSubject(jwt);
-        if (subject == null) throw new ServletException("Invalid JWT provider");
+        if (subject == null) throw new ServletException("Invalid JWT provided");
 
         UserDetails userFound = sqlUserDetailsService.loadUserByUsername(subject);
         Authentication authentication = new UsernamePasswordAuthenticationToken(userFound.getUsername(), userFound.getPassword());

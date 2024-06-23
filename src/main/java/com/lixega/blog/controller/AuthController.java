@@ -1,7 +1,9 @@
 package com.lixega.blog.controller;
 
-import com.lixega.blog.model.dto.LoginRequest;
-import com.lixega.blog.model.dto.LoginResponse;
+import com.lixega.blog.model.dto.request.LoginRequest;
+import com.lixega.blog.model.dto.request.RegistrationRequest;
+import com.lixega.blog.model.dto.response.LoginResponse;
+import com.lixega.blog.model.dto.response.RegistrationResponse;
 import com.lixega.blog.service.AuthService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,7 +19,12 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("login")
-    public LoginResponse loginResponse(@RequestBody LoginRequest loginRequest){
+    public LoginResponse login(@RequestBody LoginRequest loginRequest){
         return authService.login(loginRequest);
+    }
+
+    @PostMapping("register")
+    public RegistrationResponse register(@RequestBody RegistrationRequest request){
+        return authService.register(request);
     }
 }
