@@ -20,11 +20,6 @@ public class UserController {
         return userService.getUserByNickname(nickname);
     }
 
-    @PostMapping
-    public UserAccount createUser(@RequestBody RegistrationRequest registrationRequest) {
-        return authService.createUser(registrationRequest);
-    }
-
     @DeleteMapping("{id}")
     public String deleteUserById(Long id){
         userService.deleteUserById(id);

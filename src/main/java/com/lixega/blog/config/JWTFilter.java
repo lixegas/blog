@@ -34,7 +34,7 @@ public class JWTFilter extends OncePerRequestFilter {
         String jwt = authHeader.split(" ")[1];
 
         String subject = jwtUtils.getSubject(jwt);
-        if (subject == null) throw new ServletException("Invalid JWT provided");
+        if (subject == null) throw new ServletException("Invalid JWT provided.");
 
         UserDetails userFound = sqlUserDetailsService.loadUserByUsername(subject);
         Authentication authentication = new UsernamePasswordAuthenticationToken(userFound.getUsername(), userFound.getPassword());
