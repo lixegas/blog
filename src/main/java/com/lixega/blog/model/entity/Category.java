@@ -1,5 +1,6 @@
 package com.lixega.blog.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -25,6 +26,7 @@ public class Category {
     @Column (name = "created_at")
     private Instant createdAt;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "category")
     private List<Article> articles;
 }

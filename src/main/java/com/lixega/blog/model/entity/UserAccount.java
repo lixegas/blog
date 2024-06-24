@@ -1,5 +1,6 @@
 package com.lixega.blog.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,7 +18,6 @@ import java.util.List;
 @Entity
 @Table (name= "user")
 public class UserAccount {
-
     @Id
     @Column(name = "user_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,10 +34,7 @@ public class UserAccount {
     private Instant createAt;
 
 
+    @JsonIgnore
     @OneToMany(mappedBy = "author")
     private List<Article> articles;
-
-
-
-
 }

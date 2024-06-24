@@ -1,5 +1,6 @@
 package com.lixega.blog.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -27,10 +28,12 @@ public class Article {
     @Column (name = "created_at")
     private Instant createdAt;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "author")
     private UserAccount author;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "category")
     private Category category;
