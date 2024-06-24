@@ -13,7 +13,7 @@ public class ArticleCreationRequest {
     private String content;
     private String slug;
     private String category;
-    private String nickname;
+    private String author;
 
 
 }

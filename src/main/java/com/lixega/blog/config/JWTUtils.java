@@ -3,14 +3,10 @@ package com.lixega.blog.config;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.security.SecureDigestAlgorithm;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
-import java.security.PrivateKey;
-import java.security.PublicKey;
 import java.time.Instant;
 import java.util.Date;
 
@@ -20,7 +16,7 @@ import java.util.Date;
 public class JWTUtils {
 
     private final RSAKeyProperties rsaKeyProperties;
-    private static final long jwtExpirationMillis = 30000;
+    private static final long jwtExpirationMillis = 300000;
 
 
     public String getSubject(String jwt) {

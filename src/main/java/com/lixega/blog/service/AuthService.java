@@ -7,13 +7,14 @@ import com.lixega.blog.model.dto.response.LoginResponse;
 import com.lixega.blog.model.dto.response.RegistrationResponse;
 import com.lixega.blog.model.entity.UserAccount;
 import com.lixega.blog.repository.UserRepository;
-import io.jsonwebtoken.security.Password;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -36,6 +37,14 @@ public class AuthService {
         String token = jwtUtils.generateTokenWithUsername(loginRequest.getUsername());
         return new LoginResponse(token);
     }
+
+    public UserAccount getCurrentUser(){
+       String username = SecurityContextHolder.getContext().getAuthentication().getName();
+       UserAccount currentUser = userRepository.findByUsername(username);
+       if(currentUser == null) throw new UsernameNotFoundException("User not found");
+       return currentUser;
+    }
+
 
     public RegistrationResponse register(RegistrationRequest request){
         UserAccount userAccount = createUser(request);

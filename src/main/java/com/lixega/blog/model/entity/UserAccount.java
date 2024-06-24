@@ -32,6 +32,7 @@ public class UserAccount {
     private String password;
     private LocalDateTime birthday;
 
+
     @OneToMany(mappedBy = "author")
     private List<Article> articles;
 

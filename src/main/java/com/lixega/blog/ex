@@ -1,0 +1,5 @@
+1) Associare la creazione di entitá (tipo articoli) a degli user (Lo user fa il login -> prende il jwt ->
+fa una richiesta di creazione di un articolo ->
+ l'articolo deve avere nel campo "Author" lo user loggato)
+2) Implementare mapstruct
+3) Implementare i refresh token

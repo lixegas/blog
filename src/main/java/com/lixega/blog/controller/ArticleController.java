@@ -1,9 +1,12 @@
 package com.lixega.blog.controller;
 
+import com.lixega.blog.config.JWTUtils;
 import com.lixega.blog.model.dto.request.ArticleCreationRequest;
 import com.lixega.blog.model.entity.Article;
 import com.lixega.blog.service.ArticleService;
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,6 +17,7 @@ import java.util.List;
 public class ArticleController {
 
     private ArticleService articleService;
+    private final JWTUtils jwtUtils;
 
     @GetMapping("/")
     public List<Article> getAllArticles(){
@@ -27,6 +31,9 @@ public class ArticleController {
 
     @PostMapping("/")
     public Article createArticle(@RequestBody ArticleCreationRequest articleCreationRequest) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+
         return articleService.createArticle(articleCreationRequest);
     }
 
