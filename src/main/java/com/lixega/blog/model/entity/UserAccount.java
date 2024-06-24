@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -22,15 +23,15 @@ public class UserAccount {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
 
-    @Column(name = "created_at")
-    private LocalDateTime createAt;
-
     private String name;
     private String surname;
     private String username;
     private String email;
     private String password;
-    private LocalDateTime birthday;
+
+    private Instant birthday;
+    @Column(name = "created_at")
+    private Instant createAt;
 
 
     @OneToMany(mappedBy = "author")

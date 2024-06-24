@@ -16,8 +16,8 @@ public class UserController {
     private final AuthService authService;
 
     @GetMapping("{nickname}")
-    public UserAccount getUserNickname(@PathVariable String nickname) {
-        return userService.getUserByNickname(nickname);
+        public UserAccount getUserNickname(@PathVariable String nickname) {
+            return userService.getUserByNickname(nickname);
     }
 
     @DeleteMapping("{id}")

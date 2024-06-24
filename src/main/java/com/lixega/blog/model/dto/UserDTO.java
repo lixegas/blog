@@ -1,4 +1,4 @@
-package com.lixega.blog.model.dto.response;
+package com.lixega.blog.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -8,17 +8,14 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-public class RegistrationResponse {
+@AllArgsConstructor
+public class UserDTO {
     private long userId;
 
     private String name;
     private String surname;
-
     private String username;
-    private String email;
-    private String password;
 
     private Instant createdAt;
     private Instant birthday;

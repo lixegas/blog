@@ -7,13 +7,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class ArticleCreationRequest {
-
     private String title;
     private String excerpt;
     private String content;
     private String slug;
     private String category;
-    private String author;
-
-
 }
