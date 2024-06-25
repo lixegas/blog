@@ -1,6 +1,5 @@
 package com.lixega.blog.service;
 
-import com.lixega.blog.model.dto.request.RegistrationRequest;
 import com.lixega.blog.model.entity.UserAccount;
 import com.lixega.blog.repository.UserRepository;
 import lombok.AllArgsConstructor;
@@ -15,7 +14,6 @@ public class UserService {
     public UserAccount getUserByNickname(String nickname) {
         return userRepository.findByUsername(nickname);
     }
-
 
 
     public void deleteUserById(Long id){
