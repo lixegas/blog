@@ -32,8 +32,6 @@ public class ArticleController {
     @PostMapping("/")
     public Article createArticle(@RequestBody ArticleCreationRequest articleCreationRequest) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-
         return articleService.createArticle(articleCreationRequest);
     }
 

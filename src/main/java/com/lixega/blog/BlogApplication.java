@@ -8,12 +8,9 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 @EnableConfigurationProperties(RSAKeyProperties.class)
 @SpringBootApplication
 public class BlogApplication {
-
 	public static void main(String[] args) {
 
 		SpringApplication.run(BlogApplication.class, args);
 
 	}
-
-
 }

@@ -7,6 +7,4 @@ import org.mapstruct.Mapper;
 @Mapper
 public interface CategoryMapper {
     Category mapToCategory (CategoryCreationRequest categoryCreationRequest);
-
-
 }

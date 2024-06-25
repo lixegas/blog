@@ -13,8 +13,8 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("{nickname}")
-    public UserAccount getUserNickname(@PathVariable String nickname) {
-        return userService.getUserByNickname(nickname);
+        public UserAccount getUserNickname(@PathVariable String nickname) {
+            return userService.getUserByNickname(nickname);
     }
 
     @DeleteMapping("{id}")

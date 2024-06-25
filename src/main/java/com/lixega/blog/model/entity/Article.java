@@ -1,10 +1,12 @@
 package com.lixega.blog.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 
 @Data
@@ -17,25 +19,23 @@ public class Article {
     @Column (name = "article_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long articleId;
-    @Column
+
     private String title;
-    @Column
     private String excerpt;
-    @Column (name = "created_at")
-    private LocalDateTime createdAt;
-    private String content;
-    @Column
     private String slug;
+    private String content;
 
+    @Column (name = "created_at")
+    private Instant createdAt;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "author")
     private UserAccount author;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "category")
     private Category category;
-
-
 
 }
