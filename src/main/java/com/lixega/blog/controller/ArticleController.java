@@ -1,6 +1,5 @@
 package com.lixega.blog.controller;
 
-import com.lixega.blog.config.JWTUtils;
 import com.lixega.blog.model.dto.request.ArticleCreationRequest;
 import com.lixega.blog.model.entity.Article;
 import com.lixega.blog.service.ArticleService;
@@ -17,7 +16,7 @@ import java.util.List;
 public class ArticleController {
 
     private ArticleService articleService;
-    private final JWTUtils jwtUtils;
+
 
     @GetMapping("/")
     public List<Article> getAllArticles(){
