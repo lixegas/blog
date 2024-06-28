@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.Optional;
+
 @Service
 @AllArgsConstructor
 public class CategoryService {
@@ -16,11 +18,23 @@ public class CategoryService {
     private final CategoryRepository categoryRepository;
 
     public Category getCategoryBySlug(String slug){
-        return categoryRepository.findBySlug(slug);
+        Optional<Category> categoryOptional = categoryRepository.findBySlug(slug);
+        if(categoryOptional.isEmpty()){
+            String errorMessage = String.format("Category with slug %s does not exists.", slug);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, errorMessage);
+        }
+
+        return categoryOptional.get();
     }
 
     public Category getCategoryByName(String name){
-        return categoryRepository.findByName(name);
+        Optional<Category> categoryOptional = categoryRepository.findByName(name);
+        if(categoryOptional.isEmpty()){
+            String errorMessage = String.format("Category with name %s does not exists.", name);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, errorMessage);
+        }
+
+        return categoryOptional.get();
     }
     public Category createCategory(CategoryCreationRequest categoryCreationRequest){
         Category categoryToSave = toCategory(categoryCreationRequest);

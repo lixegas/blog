@@ -1,8 +1,10 @@
 package com.lixega.blog.controller;
 
+import com.lixega.blog.model.dto.ArticleDTO;
 import com.lixega.blog.model.dto.request.ArticleCreationRequest;
 import com.lixega.blog.model.entity.Article;
 import com.lixega.blog.service.ArticleService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,20 +19,18 @@ public class ArticleController {
 
     private ArticleService articleService;
 
-
     @GetMapping("/")
-    public List<Article> getAllArticles(){
+    public List<ArticleDTO> getAllArticles(){
         return articleService.getAllArticles();
     }
 
     @GetMapping("{slug}")
-    public Article getArticleBySlug(@PathVariable String slug){
+    public ArticleDTO getArticleBySlug(@PathVariable String slug){
         return articleService.getArticleBySlug(slug);
     }
 
     @PostMapping("/")
-    public Article createArticle(@RequestBody ArticleCreationRequest articleCreationRequest) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    public ArticleDTO createArticle(@Valid  @RequestBody ArticleCreationRequest articleCreationRequest) {
         return articleService.createArticle(articleCreationRequest);
     }
 

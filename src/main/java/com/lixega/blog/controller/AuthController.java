@@ -5,9 +5,9 @@ import com.lixega.blog.model.dto.request.RegistrationRequest;
 import com.lixega.blog.model.dto.response.LoginResponse;
 import com.lixega.blog.model.dto.response.RegistrationResponse;
 import com.lixega.blog.service.AuthService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,10 +26,8 @@ public class AuthController {
     }
 
 
-    //MODIFICATO QUI
     @PostMapping("register")
-    public RegistrationResponse register(@RequestBody RegistrationRequest request){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    public RegistrationResponse register(@Valid @RequestBody RegistrationRequest request){
         return authService.register(request);
     }
 }

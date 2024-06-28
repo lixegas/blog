@@ -15,9 +15,15 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.parameters.P;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Service
 @AllArgsConstructor
@@ -26,13 +32,13 @@ public class AuthService {
     private final AuthenticationManager authenticationManager;
     private final JWTUtils jwtUtils;
     private final UserMapper userMapper;
-
+    private final PasswordEncoder passwordEncoder;
 
     private final UserRepository userRepository;
 
     public LoginResponse login(LoginRequest loginRequest) {
         Authentication authentication = new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword());
-        authenticate(authentication);
+        authenticationManager.authenticate(authentication);
 
         String token = jwtUtils.generateTokenWithUsername(loginRequest.getUsername());
         return new LoginResponse(token);
@@ -40,37 +46,55 @@ public class AuthService {
 
     public UserAccount getCurrentUser() {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        UserAccount currentUser = userRepository.findByUsername(username);
-        if (currentUser == null) throw new UsernameNotFoundException("User not found");
-        return currentUser;
+        Optional<UserAccount> currentUser = userRepository.findByUsername(username);
+
+        if (currentUser.isEmpty()) throw new UsernameNotFoundException("User not found");
+        return currentUser.get();
     }
 
 
     public RegistrationResponse register(RegistrationRequest request) {
-        try {
-            // Creazione dell'account utente
-            UserAccount userAccount = createUser(request);
-            // Salvataggio dell'account utente nel repository
-            UserAccount registeredUserAccount = userRepository.save(userAccount);
-            return userMapper.mapToResponse(registeredUserAccount);
-        } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Errore durante la registrazione dell'utente");
+        checkForValidEmail(request.getEmail());
+        checkForValidPassword(request.getPassword());
+
+        checkForUserWithSameUsername(request.getUsername());
+        checkForUserWithSameEmail(request.getEmail());
+
+        request.setPassword(passwordEncoder.encode(request.getPassword()));
+        UserAccount registeredUserAccount = userRepository.save(userMapper.mapToUser(request));
+
+        return userMapper.mapToRegistrationResponse(registeredUserAccount);
+    }
+
+    private void checkForUserWithSameUsername(String username){
+        boolean userWithSameUsernameExists = userRepository.findByUsername(username).isPresent();
+        if(userWithSameUsernameExists) {
+            String errorMessage = String.format("User with username %s already exists", username);
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, errorMessage);
         }
     }
 
-
-    public UserAccount createUser(RegistrationRequest registrationRequest) {
-        UserAccount userAccountToSave = userMapper.mapToUser(registrationRequest);
-        return userRepository.save(userAccountToSave);
+    private void checkForUserWithSameEmail(String email){
+        boolean userWithSameUsernameExists = userRepository.findByUsername(email).isPresent();
+        if(userWithSameUsernameExists) {
+            String errorMessage = String.format("User with email %s already exists", email);
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, errorMessage);
+        }
     }
 
+    private void checkForValidEmail(String email){
+        String regex = "^[A-Za-z0-9+_.-]+@(.+)$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(email);
 
-    public void authenticate(Authentication authentication) {
+        if(!matcher.matches()){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid email provided");
+        }
+    }
 
-        try {
-            authenticationManager.authenticate(authentication);
-        } catch (AuthenticationException e) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+    private void checkForValidPassword(String password){
+        if(password.isBlank() || password.length() < 6){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Password must be at least 6 characters long.");
         }
     }
 
