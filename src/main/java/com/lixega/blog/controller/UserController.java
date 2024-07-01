@@ -1,7 +1,6 @@
 package com.lixega.blog.controller;
 
 import com.lixega.blog.model.dto.UserDTO;
-import com.lixega.blog.model.entity.UserAccount;
 import com.lixega.blog.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;

@@ -3,7 +3,6 @@ package com.lixega.blog.model.mapper;
 import com.lixega.blog.model.dto.CategoryDTO;
 import com.lixega.blog.model.dto.request.CategoryCreationRequest;
 import com.lixega.blog.model.entity.Category;
-import jdk.jfr.Name;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;

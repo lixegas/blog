@@ -4,8 +4,7 @@ import com.lixega.blog.model.dto.request.RegistrationRequest;
 import com.lixega.blog.model.dto.response.RegistrationResponse;
 import com.lixega.blog.model.entity.UserAccount;
 import org.mapstruct.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
+
 
 import java.time.Instant;
 

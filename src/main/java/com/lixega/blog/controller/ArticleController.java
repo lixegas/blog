@@ -2,12 +2,9 @@ package com.lixega.blog.controller;
 
 import com.lixega.blog.model.dto.ArticleDTO;
 import com.lixega.blog.model.dto.request.ArticleCreationRequest;
-import com.lixega.blog.model.entity.Article;
 import com.lixega.blog.service.ArticleService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

@@ -8,8 +8,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+
 
 @Data
 @Builder
@@ -18,6 +19,7 @@ import java.util.List;
 @Entity
 @Table (name= "user")
 public class UserAccount {
+
     @Id
     @Column(name = "user_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,4 +39,8 @@ public class UserAccount {
     @JsonIgnore
     @OneToMany(mappedBy = "author")
     private List<Article> articles;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "userAccount", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<RefreshToken> refreshTokens = new ArrayList<>();
 }

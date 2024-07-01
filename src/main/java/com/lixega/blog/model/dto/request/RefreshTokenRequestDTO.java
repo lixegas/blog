@@ -1,4 +1,4 @@
-package com.lixega.blog.model.dto.response;
+package com.lixega.blog.model.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,6 +7,6 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class LoginResponse {
-    private String jwt;
+public class RefreshTokenRequestDTO {
+    private String refreshToken;
 }

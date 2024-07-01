@@ -1,14 +1,13 @@
 package com.lixega.blog.service;
 
 import com.lixega.blog.model.dto.UserDTO;
+import com.lixega.blog.model.entity.RefreshToken;
 import com.lixega.blog.model.entity.UserAccount;
 import com.lixega.blog.model.mapper.UserMapper;
 import com.lixega.blog.repository.UserRepository;
 import lombok.AllArgsConstructor;
-import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -25,7 +24,7 @@ public class UserService {
 
     public UserDTO getUserByUsername(String username) {
         Optional<UserAccount> userAccount = userRepository.findByUsername(username);
-        if(userAccount.isEmpty()){
+        if (userAccount.isEmpty()) {
             String errorMessage = String.format("User with username %s does not exist", username);
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, errorMessage);
         }
@@ -38,27 +37,25 @@ public class UserService {
         }
 
         return userMapper.mapToAuthorizedDTO(userAccount.get());
-
     }
 
-    public void deleteUserById(Long id){
+    public void deleteUserById(Long id) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if(!authentication.isAuthenticated()){
+        if (!authentication.isAuthenticated()) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Not authenticated");
         }
 
         Optional<UserAccount> optionalUser = userRepository.findById(id);
-        if(optionalUser.isEmpty()){
+        if (optionalUser.isEmpty()) {
             String errorMessage = String.format("User with ID %s not found", id);
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, errorMessage);
         }
 
         UserAccount user = optionalUser.get();
         boolean isTheSameUser = Objects.equals(user.getUsername(), authentication.getName());
-        if(!isTheSameUser){
-           throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Requesting user is not the same as the deleting account");
+        if (!isTheSameUser) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Requesting user is not the same as the deleting account");
         }
-
         userRepository.deleteById(id);
     }
 }

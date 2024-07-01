@@ -3,8 +3,9 @@ package com.lixega.blog.service;
 import com.lixega.blog.config.JWTUtils;
 import com.lixega.blog.model.dto.request.LoginRequest;
 import com.lixega.blog.model.dto.request.RegistrationRequest;
-import com.lixega.blog.model.dto.response.LoginResponse;
+import com.lixega.blog.model.dto.response.JWTResponse;
 import com.lixega.blog.model.dto.response.RegistrationResponse;
+import com.lixega.blog.model.entity.RefreshToken;
 import com.lixega.blog.model.entity.UserAccount;
 import com.lixega.blog.model.mapper.UserMapper;
 import com.lixega.blog.repository.UserRepository;
@@ -13,9 +14,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
+
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.parameters.P;
+
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -33,15 +34,18 @@ public class AuthService {
     private final JWTUtils jwtUtils;
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
-
+    private final RefreshTokenService refreshTokenService;
     private final UserRepository userRepository;
 
-    public LoginResponse login(LoginRequest loginRequest) {
+
+    public JWTResponse login(LoginRequest loginRequest) {
         Authentication authentication = new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword());
         authenticationManager.authenticate(authentication);
 
-        String token = jwtUtils.generateTokenWithUsername(loginRequest.getUsername());
-        return new LoginResponse(token);
+        String accessToken = jwtUtils.generateTokenWithUsername(loginRequest.getUsername());
+        RefreshToken refreshTokenObj = refreshTokenService.createRefreshToken(loginRequest.getUsername());
+        String refreshToken = refreshTokenObj.getToken();
+        return new JWTResponse(accessToken, refreshToken);
     }
 
     public UserAccount getCurrentUser() {
@@ -97,5 +101,4 @@ public class AuthService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Password must be at least 6 characters long.");
         }
     }
-
 }

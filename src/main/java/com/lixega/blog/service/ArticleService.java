@@ -6,7 +6,6 @@ import com.lixega.blog.model.entity.Article;
 import com.lixega.blog.model.entity.Category;
 import com.lixega.blog.model.entity.UserAccount;
 import com.lixega.blog.model.mapper.ArticleMapper;
-import com.lixega.blog.model.mapper.CategoryMapper;
 import com.lixega.blog.repository.ArticleRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;

@@ -1,7 +1,5 @@
 package com.lixega.blog.model.dto.response;
 
-import jakarta.annotation.Nonnull;
-import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
